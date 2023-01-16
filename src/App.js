@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-
+import loopImg from './assets/swloop.gif'
 
 import MoviesList from './components/MoviesList';
 import './App.css';
@@ -24,7 +24,9 @@ function App() {
         }
       })
       
-      setMoviesList(prevResults=>transformedMovies)})
+      setMoviesList(prevResults=>transformedMovies)
+      setIsLoading(false)
+    })
   }
 
   return (
@@ -33,7 +35,11 @@ function App() {
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={moviesList} />
+        
+      {!isLoading &&  <MoviesList movies={moviesList} />}
+      {isLoading &&( <div>
+        <img alt='loading' src={loopImg} />
+       <p>Loding...</p></div>)}
       </section>
     </React.Fragment>
   );
