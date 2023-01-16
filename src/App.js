@@ -12,7 +12,17 @@ function App() {
       response=>{
         return response.json();
       }
-    ).then(data=>{ setMoviesList(prevResults=>data.results)})
+    ).then(data=>{ 
+      const transformedMovies = data.results.map(movieData => {
+        return{
+          id: movieData.episode_id,
+          title: movieData.title,
+          openingText: movieData.opening_crawl,
+          releaseDate: movieData.release_date
+        }
+      })
+      
+      setMoviesList(prevResults=>transformedMovies)})
   }
 
   return (
