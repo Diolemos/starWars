@@ -36,7 +36,8 @@ function App() {
       </section>
       <section>
         
-      {!isLoading &&  <MoviesList movies={moviesList} />}
+      {!isLoading && moviesList.length>0 &&  <MoviesList movies={moviesList} />}
+      {!isLoading&&moviesList==0&& <p>sorry, found no movies</p>}
       {isLoading &&( <div>
         <img alt='loading' src={loopImg} />
        <p>Loding...</p></div>)}
