@@ -10,32 +10,33 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchMoviesHandler= useCallback(()=>{
-    setIsLoading(true)
+  const fetchMoviesHandler = useCallback(() => {
+    setIsLoading(true);
     setError(null);
-    fetch('https://swapi.dev/api/fil').then(response => {
-      if (!response.ok) {
-        throw new Error('something went wrong')
-      }
-      return response.json()
-      }
-    ).then(data=>{ 
-      const transformedMovies = data.results.map(movieData => {
-        return{
-          id: movieData.episode_id,
-          title: movieData.title,
-          openingText: movieData.opening_crawl,
-          releaseDate: movieData.release_date
-        }
-      })
-      
-      setMoviesList(prevResults=>transformedMovies)
-      setIsLoading(false)
-    }).catch(error=>{console.dir(error)
-    setIsLoading(false)}
-    );
-  },[])
-
+    fetch('https://swapi.dev/api/films')
+    .then(response => {
+    if (!response.ok) {
+    throw new Error('Something went wrong');
+    }
+    return response.json();
+    })
+    .then(data => {
+    const transformedMovies = data.results.map(movieData => {
+    return {
+    id: movieData.episode_id,
+    title: movieData.title,
+    openingText: movieData.opening_crawl,
+    releaseDate: movieData.release_date
+    };
+    });
+    setMoviesList(prevResults => transformedMovies);
+    setIsLoading(false);
+    })
+    .catch(error => {
+    setError(error.message);
+    setIsLoading(false);
+    });
+    }, []);
   useEffect(()=>fetchMoviesHandler(), []);
 
  
@@ -51,7 +52,7 @@ function App() {
       {!isLoading&&moviesList===0&& <p>sorry, found no movies</p>}
       {isLoading &&( <div>
         <img alt='loading' src={loopImg} />
-       <p>Loding...</p></div>)}
+       <p>Loding...</p></div>)};
       {!isLoading && error && <p>{error}</p>}
       </section>
     </React.Fragment>
