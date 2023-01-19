@@ -4,6 +4,7 @@ import loopImg from './assets/swloop.gif'
 
 import MoviesList from './components/MoviesList';
 import './App.css';
+import AddMovie from './components/AddMovie';
 
 function App() {
   const [moviesList, setMoviesList] = useState([])
@@ -13,7 +14,7 @@ function App() {
   const fetchMoviesHandler = useCallback(() => {
     setIsLoading(true);
     setError(null);
-    fetch('https://swapi.dev/api/films')
+    fetch('https://react-http-e49eb-default-rtdb.firebaseio.com/movies.json')
     .then(response => {
     if (!response.ok) {
     throw new Error('Something went wrong');
@@ -38,11 +39,21 @@ function App() {
     });
     }, []);
   useEffect(()=>fetchMoviesHandler(), []);
-
+    function addMovieHandler(movie){
+      fetch('https://react-http-e49eb-default-rtdb.firebaseio.com/', 
+      {method: 'POST',
+    body: JSON.stringify(movie),
+  headers: {
+    'content-type': 'application/json'
+  } });
+    }
  
 
   return (
     <React.Fragment>
+      <section>
+        <AddMovie onAddMovie={addMovieHandler}/>
+      </section>
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
