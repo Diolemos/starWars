@@ -39,13 +39,16 @@ function App() {
     });
     }, []);
   useEffect(()=>fetchMoviesHandler(), []);
-    function addMovieHandler(movie){
-      fetch('https://react-http-e49eb-default-rtdb.firebaseio.com/', 
-      {method: 'POST',
-    body: JSON.stringify(movie),
-  headers: {
-    'content-type': 'application/json'
-  } });
+    
+ async function addMovieHandler(movie){
+      const response = await fetch('https://react-http-e49eb-default-rtdb.firebaseio.com/movies.json',{
+        method: 'POST',
+        body:  JSON.stringify(movie),
+        headers: {'content-type':'application/json'}
+      })
+
+      const data = await response.json();
+      console.log(data);
     }
  
 
