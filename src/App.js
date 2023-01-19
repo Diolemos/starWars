@@ -22,15 +22,19 @@ function App() {
     return response.json();
     })
     .then(data => {
-    const transformedMovies = data.results.map(movieData => {
-    return {
-    id: movieData.episode_id,
-    title: movieData.title,
-    openingText: movieData.opening_crawl,
-    releaseDate: movieData.release_date
-    };
-    });
-    setMoviesList(prevResults => transformedMovies);
+
+      const  loadedMovies = []
+    for (const key in data){
+      loadedMovies.push({
+        id:key,
+        title: data[key].title,
+        openingText: data[key].openingText,
+        releaseDate: data[key].openingDate
+      })
+    }
+
+    
+    setMoviesList(prevResults => loadedMovies);
     setIsLoading(false);
     })
     .catch(error => {
